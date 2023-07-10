@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\DEV\Csharp\WxShopApp\Api\bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2023-07-09T04:14:34.7621771Z;True|2023-07-09T11:04:50.7398749+08:00;True|2023-07-09T10:54:00.9384173+08:00;True|2023-07-09T10:53:34.5887224+08:00;True|2023-07-09T10:51:01.2252242+08:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>
