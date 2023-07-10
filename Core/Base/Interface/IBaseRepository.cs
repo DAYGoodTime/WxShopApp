@@ -22,7 +22,7 @@ namespace Core.Base.Interface
 
         bool Update(List<TEntity> entityList);
 
-        TEntity Find(Expression<Func<TEntity, bool>> where);
+        TEntity? Find(Expression<Func<TEntity, bool>> where);
 
         Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> where);
 

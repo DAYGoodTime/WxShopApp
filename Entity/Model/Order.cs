@@ -20,7 +20,7 @@ namespace WxsAppShop.Entity.Model
 
         public decimal single_price { get; set; } = decimal.Zero;
 
-        public int count { get; set; }
+        public int counts { get; set; }
 
         public Guid option_id { get; set; } = Guid.Empty;
 

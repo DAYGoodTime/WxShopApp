@@ -29,10 +29,16 @@ namespace Core.Base.DBContext
 
         public DbSet<Item> _items { get; set; }
 
-        public DbSet<ItemSubOption> _itemsSubOption { get; set;}
+        public DbSet<ItemSubOption> _itemsSubOption { get; set; }
 
-        public DbSet<ItemTagOptions> _itemsTagOptions { get; set;}
+        public DbSet<ItemTagOptions> _itemsTagOptions { get; set; }
 
         public DbSet<Order> _order { get; set; }
+
+        public DbSet<ShoppingCar> shoppingCars { get; set; }
+
+        public DbSet<Comment> _comments { get; set; }
+
+        public DbSet<Collection> _collection { get; set; }
     }
 }

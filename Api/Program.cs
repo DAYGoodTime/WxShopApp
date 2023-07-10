@@ -1,4 +1,3 @@
-using Api.Interceptor;
 using Core.Base.DBContext;
 using Core.Base.Implementation;
 using Core.Base.Interface;
@@ -18,10 +17,7 @@ namespace Api
 
             // Add services to the container.
 
-            builder.Services.AddControllers(options =>
-            {
-                options.Filters.Add<ComplexMethodInterceptor>();
-            });
+            builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
@@ -30,11 +26,16 @@ namespace Api
                 {
                     Title = "微信小程序商店",
                     Version = "0.1b",
-                    Description = "Power by ASP .Net 6.0"
+                    Description = "Power by ASP.Net 6.0"
                 });
-                var file = Path.Combine(AppContext.BaseDirectory, "Api.xml");  // xml文档绝对路径
-                var path = Path.Combine(AppContext.BaseDirectory, file); // xml文档绝对路径
-                c.IncludeXmlComments(path, true); // true : 显示控制器层注释
+                // xml文档绝对路径
+                var apixml = Path.Combine(AppContext.BaseDirectory, "Api.xml");
+                var objxml = Path.Combine(AppContext.BaseDirectory, "Entity.xml");
+                var apixmlPath = Path.Combine(AppContext.BaseDirectory, apixml);
+                var objxmlPath = Path.Combine(AppContext.BaseDirectory, objxml);
+                c.IncludeXmlComments(apixmlPath, true); // true : 显示控制器层注释
+                c.IncludeXmlComments(objxmlPath, true);
+
                 c.OrderActionsBy(o => o.RelativePath); // 对action的名称进行排序，如果有多个，就可以看见效果了。
             });
 

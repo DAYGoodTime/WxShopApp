@@ -37,18 +37,30 @@ namespace Api.Controllers
         {
             return Json(RespRsult.OK(topicServices.GetAll()));
         }
+        /// <summary>
+        /// 获得所有的“投票”版块
+        /// </summary>
+        /// <returns></returns>
         [Route("getVotes")]
         [HttpGet]
         public IActionResult GetVotes()
         {
             return Json(RespRsult.OK(voteServices.GetAll()));
         }
+        /// <summary>
+        /// 获得所有的“心声”版块
+        /// </summary>
+        /// <returns></returns>
         [Route("getVoice")]
         [HttpGet]
         public IActionResult GetVoice()
         {
             return Json(RespRsult.OK(voiceServices.GetAll()));
         }
+        /// <summary>
+        /// 获得所有的“新闻”版块
+        /// </summary>
+        /// <returns></returns>
         [Route("getNews")]
         [HttpGet]
         public IActionResult GetNews()

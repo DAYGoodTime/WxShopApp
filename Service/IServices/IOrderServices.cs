@@ -1,6 +1,7 @@
 ﻿using Core.Base.Interface;
 using Core.Base.Interface.Auto_registration;
 using Entity.Base;
+using Entity.Enum;
 using Entity.Schemas;
 using Entity.Vo;
 using System;
@@ -34,5 +35,13 @@ namespace Service.IServices
         /// <param name="userId">用户id</param>
         /// <returns></returns>
         public List<Order> selectUserOrders(Guid userId);
+
+        /// <summary>
+        /// 查询某个状态下的订单
+        /// </summary>
+        /// <param name="state">订单状态</param>
+        /// <param name="userId">用户id</param>
+        /// <returns></returns>
+        public List<Order> selectOrdersByState(OrderState state, Guid userId);
     }
 }

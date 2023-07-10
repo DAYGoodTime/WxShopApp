@@ -6,6 +6,7 @@ using Entity.Schemas;
 using Entity.Vo;
 using Entity.Model;
 using Entity.Base;
+using Entity.Enum;
 
 namespace Service.IServices
 {
@@ -13,10 +14,12 @@ namespace Service.IServices
     {
         private readonly IBaseRepository<Order> _orderRepository;
         private readonly IBaseRepository<ItemSubOption> _optionRepository;
-        public OrderServices(IBaseRepository<Order> baseRepository,
-            IBaseRepository<ItemSubOption> itemSubOptionRepository) : base(baseRepository)
+        public OrderServices(
+            IBaseRepository<Order> orderRepository,
+            IBaseRepository<ItemSubOption> itemSubOptionRepository
+            ) : base(orderRepository)
         {
-            _baseRepository = baseRepository;
+            _orderRepository = orderRepository;
             _optionRepository = itemSubOptionRepository;
         }
 
@@ -68,11 +71,16 @@ namespace Service.IServices
                     actual_price = item.option_price * item.count,
                     single_price = item.option_price,
                     option_id = item.option_id,
-                    count = count
+                    counts = count
                 };
                 orders.Add(order);
             }
             return _orderRepository.Add(orders);
+        }
+
+        public List<Order> selectOrdersByState(OrderState state, Guid userId)
+        {
+            return _orderRepository.Select(o => o.order_state == state && o.user_id == userId);
         }
 
         public List<Order> selectUserOrders(Guid userId)

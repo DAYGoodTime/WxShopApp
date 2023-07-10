@@ -10,8 +10,13 @@ namespace Entity.Vo
 {
     public class ItemVo : Item
     {
+        /// <summary>
+        /// 物品的所拥有的选项
+        /// </summary>
         public List<ItemTagOptions> options { get; set; }
-
+        /// <summary>
+        /// 物品的“销量”
+        /// </summary>
         public int Sales { get; set; } = 0;
     }
 }

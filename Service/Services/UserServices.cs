@@ -4,7 +4,9 @@ using EBike.Utils;
 using Entity.Base;
 using Entity.Enum;
 using Entity.Model;
+using Entity.Schemas;
 using Entity.Vo;
+using Omu.ValueInjecter;
 using Service.IServices;
 using System;
 using System.Collections.Generic;
@@ -20,16 +22,51 @@ namespace Service.Services
         private readonly IBaseRepository<User> _repository;
         private readonly IBaseRepository<ShoppingCar> _shoppingCarRepository;
         private readonly IBaseRepository<Item> _itemRepository;
+        private readonly IBaseRepository<Order> _orderRepository;
+        private readonly IBaseRepository<Collection> _collectionRepository;
 
         public UserServices(
             IBaseRepository<User> baseRepository,
             IBaseRepository<ShoppingCar> shoppingCarRepository,
-            IBaseRepository<Item> itemResp
+            IBaseRepository<Item> itemRep,
+            IBaseRepository<Order> orderRep,
+            IBaseRepository<Collection> collRep
             ) : base(baseRepository)
         {
             _repository = baseRepository;
             _shoppingCarRepository = shoppingCarRepository;
-            _itemRepository = itemResp;
+            _itemRepository = itemRep;
+            _orderRepository = orderRep;
+            _collectionRepository = collRep;
+        }
+
+        public Collection? addCollection(Collection collection)
+        {
+            bool success = _collectionRepository.Add(collection);
+            if (success)
+            {
+                return collection;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public List<Collection> getUserCollections(Guid userId)
+        {
+            return _collectionRepository.Select(c => c.user_id == userId);
+        }
+
+        public UserOrderSates getUserOrderStateCount(Guid userId)
+        {
+            return new UserOrderSates()
+            {
+                Pending = _orderRepository.Select(o => o.user_id == userId && o.order_state == OrderState.Pending_Payment).Count,
+                Already_Paid = _orderRepository.Select(o => o.user_id == userId && o.order_state == OrderState.Already_Paid).Count,
+                Shipping = _orderRepository.Select(o => o.user_id == userId && o.order_state == OrderState.Shipping).Count,
+                Finished = _orderRepository.Select(o => o.user_id == userId && o.order_state == OrderState.Finished).Count,
+            };
         }
 
         public List<ShoppingCar> getUserShoppingCar(Guid userId)
@@ -40,6 +77,24 @@ namespace Service.Services
                 item.item = _itemRepository.Find(i => i.item_id == item.item_id);
             }
             return carList;
+        }
+
+        public bool removeCollection(Guid collection_id)
+        {
+            return _collectionRepository.Delete(c => c.collection_id == collection_id);
+        }
+
+        public UserVo? updateUser(User user)
+        {
+            bool success = _baseRepository.Update(user);
+            if (success)
+            {
+                return new UserVo().InjectFrom(user) as UserVo;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public UserVo UserLogin(User user)

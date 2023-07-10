@@ -63,7 +63,7 @@ namespace Api.Controllers
                 vote.vote_id = Guid.NewGuid();
                 vote.deadline_time = DateTime.Now;
                 //mockOption
-                //MainOption
+                //TagOption
                 ItemTagOptions tag = new ItemTagOptions
                 {
                     option_title = "选项" + i,
@@ -79,8 +79,10 @@ namespace Api.Controllers
                         option_price = (decimal)(random.NextDouble() * 1000),
                         item_id = product.item_id,
                         storage = 100,
+                        Tag_id = tag.option_tag_id
                     };
                     options.Add(option);
+                    appContext.Add(option);
                 }
                 tag.subOptions = options;
                 //mock Address
@@ -104,10 +106,35 @@ namespace Api.Controllers
                 Order order = new Order
                 {
                     user_id = lockUser.user_id,
+                    item_id = product.item_id,
                     total_price = (decimal)(random.NextDouble() * 1000),
                     actual_price = (decimal)(random.NextDouble() * 1000),
                     option_id = tag.subOptions[random.Next(0, tag.subOptions.Count)].option_id,
-                    single_price = (decimal)(random.NextDouble() * 100)
+                    single_price = (decimal)(random.NextDouble() * 100),
+                    counts = random.Next(0, mockingCount),
+                    order_state = Entity.Enum.OrderState.Pending_Payment
+                };
+                //mock ShoppingCar
+                ShoppingCar car = new ShoppingCar
+                {
+                    option_id = tag.subOptions[random.Next(0, tag.subOptions.Count)].option_id,
+                    item_id = product.item_id,
+                    counts = random.Next(0, mockingCount),
+                    user_id = lockUser.user_id
+                };
+                //mock Collection
+                Collection coll = new Collection
+                {
+                    item_id = product.item_id,
+                    user_id = lockUser.user_id
+                };
+                //mock comments
+                Comment comment = new Comment
+                {
+                    user_id = user.user_id,
+                    comment_title = "评论" + i,
+                    comment_context = "你说的对，但是C#是一款由微软开发的编程语言-----",
+                    item_id = product.item_id
                 };
                 //add to DB
                 appContext.Add(user);
@@ -115,10 +142,14 @@ namespace Api.Controllers
                 appContext.Add(address);
                 appContext.Add(category);
                 appContext.Add(product);
+                appContext.Add(tag);
                 appContext.Add(news);
                 appContext.Add(voice);
                 appContext.Add(vote);
                 appContext.Add(topic);
+                appContext.Add(car);
+                appContext.Add(coll);
+                appContext.Add(comment);
                 appContext.SaveChanges();
             }
             return "OK";

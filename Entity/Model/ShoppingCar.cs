@@ -20,7 +20,7 @@ namespace Entity.Model
 
         public Guid item_id { get; set; } = Guid.Empty;
 
-        public int count { get; set; } = 0;
+        public int counts { get; set; } = 0;
 
         public Guid user_id { get; set; } = Guid.Empty;
 

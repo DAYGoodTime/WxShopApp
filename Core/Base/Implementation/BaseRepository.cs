@@ -164,9 +164,9 @@ namespace Core.Base.Implementation
             }
         }
 
-        public TEntity Find(Expression<Func<TEntity, bool>> where)
+        public TEntity? Find(Expression<Func<TEntity, bool>> where)
         {
-            return _context.Set<TEntity>().First(where);
+            return _context.Set<TEntity>().FirstOrDefault(where);
         }
 
         public async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> where)

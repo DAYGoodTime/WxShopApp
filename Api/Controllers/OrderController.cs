@@ -1,4 +1,5 @@
 ﻿using Entity.Base;
+using Entity.Enum;
 using Entity.Schemas;
 using Entity.Vo;
 using Microsoft.AspNetCore.Http;
@@ -53,6 +54,25 @@ namespace Api.Controllers
         {
             return Json(RespRsult.OK(_orderServices.selectUserOrders(userId)));
         }
+        /// <summary>
+        /// 获取用户某个状态的订单
+        /// </summary>
+        /// <param name="userId">用户id</param>
+        /// <param name="state">订单状态(整数)</param>
+        /// <returns></returns>
+        [Route("{userId:guid}/{state:int}")]
+        [HttpGet]
+        public IActionResult getUserOrderByState(Guid userId, int state)
+        {
+            if (Enum.IsDefined(typeof(OrderState), state))
+            {
 
+                return Json(RespRsult.OK(_orderServices.selectOrdersByState((OrderState)state, userId)));
+            }
+            else
+            {
+                return Json(RespRsult.Error("错误的订单状态"));
+            }
+        }
     }
 }
